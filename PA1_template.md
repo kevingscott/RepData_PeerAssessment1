@@ -3,7 +3,7 @@
 This is a short report describing the data analysis performed on the activity data provided for Peer Assignment 1 in Reproducible Research.
 
 ## Loading and preprocessing the data
-Before running some of the later commands, it will be neccesary to install and include the plyr package
+Before running some of the later commands, it will be necessary to install and include the plyr package
 
 ```r
 library("plyr")
@@ -33,7 +33,7 @@ hist(total_steps_per_day$total, xlab = "Total Steps", ylab = "Frequency", main =
 So we can see from this that the mean number of steps is 10766 and the median is 10765
 
 ## What is the average daily activity pattern?
-The average number of steps for each interveral across all days is:
+The average number of steps for each interval across all days is:
 
 
 ```r
@@ -70,7 +70,7 @@ hist(as.numeric(activity_monitor_data$interval[null_steps]), main = "Total Missi
 ![plot of chunk missingIntervalGraph](figure/missingIntervalGraph.png) 
 
 
-This shows that data is missing pretty uniformly across intervals on average.  Next let's see if certain days of the week are missing more than others.  First we will assign a new column with the names of the days of the week and then create a table of the count of missing values for that day.  Since the data encompses several months, the number of intervals in each day of the week should be roughly equal so this should be valid:
+This shows that data is missing pretty uniformly across intervals on average.  Next let's see if certain days of the week are missing more than others.  First we will assign a new column with the names of the days of the week and then create a table of the count of missing values for that day.  Since the data encompasses several months, the number of intervals in each day of the week should be roughly equal so this should be valid:
 
 
 ```r
@@ -91,7 +91,7 @@ table(activity_monitor_data$day_name, is.na(activity_monitor_data$steps))
 ```
 
 
-So interestly, we are missing more values for Friday and Monday and much less for Tuesday. Because of this relationship between day of the week and missing data, I wanted to incorporate the week day into the imputation technique.  However, I worried that basing the model off day and interval would not give enough data points to properly impute the missing values since there are only about 8 of each day of the week in the dataset. Therefore, I decided to impute based on the day being a weekend or not and interval.  To do this I first assigned a new column with the weekend status of the record (1 if record originated on a Saturday or Sunday, 0 otherwise) and then caclulated a mean by interval for each status.  This was done with the following code:
+So interestingly, we are missing more values for Friday and Monday and much less for Tuesday. Because of this relationship between day of the week and missing data, I wanted to incorporate the week day into the imputation technique.  However, I worried that basing the model off day and interval would not give enough data points to properly impute the missing values since there are only about 8 of each day of the week in the dataset. Therefore, I decided to impute based on the day being a weekend or not and interval.  To do this I first assigned a new column with the weekend status of the record (1 if record originated on a Saturday or Sunday, 0 otherwise) and then calculated a mean by interval for each status.  This was done with the following code:
 
 
 ```r
@@ -114,7 +114,7 @@ activity_monitor_data_imputed$steps <- apply(activity_monitor_data_imputed,
 ```
 
 
-We can see that the imputation had little impact on the overall data by creating a histogram of the imputed data, similiar to what was constructed earlier:
+We can see that the imputation had little impact on the overall data by creating a histogram of the imputed data, similar to what was constructed earlier:
 
 
 ```r
@@ -133,7 +133,7 @@ median_daily_steps_imputed <- median(total_steps_per_day_imputed$total, na.rm = 
 ```
 
 
-The mean daily steps in the imputed data is 10762 and the median is 10571. These are very similiar to the original dataset, as is expected since we imputed the values based on mean. The histogram shows that the data stayed the same except for extra data being added to the center, as would be expected from imputing based on the mean values.  
+The mean daily steps in the imputed data is 10762 and the median is 10571. These are very similar to the original dataset, as is expected since we imputed the values based on mean. The histogram shows that the data stayed the same except for extra data being added to the center, as would be expected from imputing based on the mean values.  
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
