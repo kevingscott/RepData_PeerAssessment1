@@ -31,7 +31,7 @@ The average number of steps for each interval across all days is:
 
 ```{r calculateIntervalPlot}
 average_steps_per_interval <- ddply(activity_monitor_data,.(interval),summarize,average=mean(steps,na.rm=TRUE))
-plot(average_steps_per_interval,type="l", main="Average Steps By Interval")
+plot(average_steps_per_interval,type="l", main="Average Steps By Interval",xlab="Interval",ylab="Average")
 ```
 
 ## Imputing missing values
